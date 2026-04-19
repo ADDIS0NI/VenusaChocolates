@@ -69,6 +69,10 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'config.urls'
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://venusachocolates-production.up.railway.app"
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -109,8 +113,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
+DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    "default": dj_database_url.config(
+        default=DATABASE_URL or f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+    )
 }
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
